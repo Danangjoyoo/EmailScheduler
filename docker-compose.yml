@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+  app:
+    build: ./container/dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./app:/app
+    restart: always
+    environment:
+      database_url: ${database_url}
+      email_address: ${email_address}
+      email_password: ${email_password}
+      app_host: ${app_host}
+      app_port: ${app_port}
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./database/:/docker-entrypoint-initdb.d/
+    restart: always
+    environment:
+      MYSQL_USER: local
+      MYSQL_PORT: 3306
+      MYSQL_PASSWORD: local123
+      MYSQL_ROOT_PASSWORD: secretpassword
+      MYSQL_DATABASE: app
+    ports:
+      - "3306:3306"

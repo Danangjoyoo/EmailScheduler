@@ -1,0 +1,10 @@
+flask[async]
+sqlalchemy
+flask-swagger-ui
+aiosqlite
+python-worker
+pymysql
+aiomysql
+pytest
+python-dotenv
+pydantic

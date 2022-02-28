@@ -1,0 +1,68 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "Flask App Email Scheduler",
+        "version": "1.0.0",
+        "title": "Flask App"
+    },
+    "paths": {
+        "/email":{
+            "get":{
+                "tags":["Email"],
+                "summary": "Get Email",
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            }
+        },
+        "/email/save_email":{
+            "post":{
+                "tags":["Email"],
+                "summary": "Create Email",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "CreateEmail",
+                                "type": "object",
+                                "properties": {
+                                    "email_subject":{
+                                        "title": "email_subject",
+                                        "type": "string"
+                                    },
+                                    "email_content":{
+                                        "title": "email_content",
+                                        "type": "string"
+                                    },
+                                    "timestamp":{
+                                        "title": "timestamp",
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example":{
+                                "email_subject": "string",
+                                "email_content": "string",
+                                "timestamp": "2022-02-25T20:15:10"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            }
+        }
+    }
+}
