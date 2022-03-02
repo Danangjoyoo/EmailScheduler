@@ -109,6 +109,10 @@
                                     }
                                 },
                                 "required":true
+                            },
+                            "example":{
+                                "name":"string",
+                                "address":"string@gmail.com"
                             }
                         }
                     }

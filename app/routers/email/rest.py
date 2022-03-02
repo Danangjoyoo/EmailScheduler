@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session
+from flask import Blueprint, g, request
 
 from .controller import (
     show_email,
@@ -23,8 +23,7 @@ router = Blueprint(
 @router.get("")
 async def get_email():
     try:
-        async with conn.session() as session:
-            return await show_email(request, session)
+        return await show_email(request, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
@@ -33,8 +32,7 @@ async def get_email():
 @router.post("")
 async def post_email():
     try:
-        async with conn.session() as session:
-            return await create_email(request, session)
+        return await create_email(request, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
@@ -42,8 +40,7 @@ async def post_email():
 @router.put("/<id>")
 async def put_email(id: int):
     try:
-        async with conn.session() as session:
-            return await update_email(request, id, session)
+        return await update_email(request, id, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
@@ -51,8 +48,7 @@ async def put_email(id: int):
 @router.delete("/<id>")
 async def delete_email(id: int):
     try:
-        async with conn.session() as session:
-            return await remove_email(id, session)
+        return await remove_email(id, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))

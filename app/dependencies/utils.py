@@ -116,8 +116,8 @@ class QueryPaginationParams:
         **kwargs
     ):
         self.fields = str(fields) if fields else None
-        self.page = int(page) if page else None
-        self.limit = int(limit) if limit else None
+        self.page = int(page) if page else 1
+        self.limit = int(limit) if limit else 20
         self.sortBy = str(sortBy) if sortBy else None
         self.sortType = str(sortType) if sortType else None    
 
@@ -277,7 +277,7 @@ class QueryPaginatorSingle(QueryManager):
             data={"list": datas},
             meta={
                 "page": self.getParams.page,
-                "length": self.getParams.limit,
+                "limit": self.getParams.limit,
                 "total": countAfterFilter,
             },
             status=status.success(),
@@ -343,7 +343,7 @@ class QueryPaginatorMultiple:
             data={"list": datas},
             meta={
                 "page": self.getParams.page,
-                "length": self.getParams.limit,
+                "limit": self.getParams.limit,
                 "total": countAfterFilter,
             },
             status=status.success(),

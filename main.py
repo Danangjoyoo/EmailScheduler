@@ -2,7 +2,7 @@ import os, asyncio, dotenv
 
 dotenv.load_dotenv()
 
-from flask import Flask, session
+from flask import Flask, session, g
 from flask_swagger_ui import get_swaggerui_blueprint
 
 from app.database import connection
@@ -20,6 +20,19 @@ swagger = get_swaggerui_blueprint(
 app.register_blueprint(swagger)
 app.register_blueprint(email_router)
 app.register_blueprint(user_router)
+
+@app.before_request
+async def generate_database_session():
+    async with connection.session() as sess:
+        if "sqlite" in os.getenv("DATABASE_URL"):
+            await sess.execute("PRAGMA foreign_keys=ON")
+        g.session = sess
+
+@app.after_request
+async def close_database_session(response):
+    await g.session.close()
+    return response
+
 
 scheduler = Scheduler(interval=os.getenv("CHECK_INTERVAL"))
 

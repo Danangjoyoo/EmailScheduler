@@ -1,4 +1,4 @@
-from flask import Blueprint, request, session
+from flask import Blueprint, request, g
 
 from .controller import (
     show_user,
@@ -21,8 +21,7 @@ router = Blueprint(
 @router.get("")
 async def get_user():
     try:
-        async with conn.session() as session:
-            return await show_user(request, session)
+        return await show_user(request, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
@@ -31,8 +30,7 @@ async def get_user():
 @router.post("")
 async def post_user():
     try:
-        async with conn.session() as session:
-            return await create_user(request, session)
+        return await create_user(request, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
@@ -40,8 +38,7 @@ async def post_user():
 @router.put("/<id>")
 async def put_user(id: int):
     try:
-        async with conn.session() as session:
-            return await update_user(request, id, session)
+        return await update_user(request, id, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
@@ -49,8 +46,7 @@ async def put_user(id: int):
 @router.delete("/<id>")
 async def delete_user(id: int):
     try:
-        async with conn.session() as session:
-            return await remove_user(id, session)
+        return await remove_user(id, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
