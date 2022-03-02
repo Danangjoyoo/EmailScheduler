@@ -1,5 +1,4 @@
-from pydantic import validator
-from email_validator import validate_email, EmailNotValidError
+from pydantic import validator, validate_email
 from ...dependencies.utils import BaseSchema
 
 class UserPydantic(BaseSchema):
@@ -9,6 +8,6 @@ class CreateUserPydantic(UserPydantic):
     email: str
 
     @validator("email")
-    def email_must_valid(cls, v, values):
+    def email_must_valid(cls, v):
         validate_email(v)
         return v

@@ -1,0 +1,2584 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Api Stock Dashboard",
+        "description": "This is a stock Dashboard.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/v1/users/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login Users",
+                "description": "login users related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "login_users_v1_users_login_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success login": {
+                                        "description": "login success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "token": "aXasca=asc!123",
+                                                "name": "Ari Setiawan",
+                                                "role": "Admin"
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "login success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 201,
+                                                "message": "invalid username or password"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/create": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create User",
+                "description": "Create new user account",
+                "operationId": "create_user_v1_users_create_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUser"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/users/forgot-password": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Forgot Password",
+                "description": "forgot password users related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "forgot_password_v1_users_forgot_password_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/forgotPassword"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success login": {
+                                        "description": "forgot success send to email",
+                                        "value": {
+                                            "data": {
+                                                "email": "aribule77@gmail.com"
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "forgot success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 201,
+                                                "message": "email not registered"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/change-password": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Change Password",
+                "description": "change password related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "change_password_v1_users_change_password_put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/changePassword"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success login": {
+                                        "description": "change password success loaded from database",
+                                        "value": {
+                                            "data": {},
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "change password success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 201,
+                                                "message": "failed change password"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/users/change-profile": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Change Profile",
+                "description": "change profile related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "change_profile_v1_users_change_profile_put",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/changeProfile"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success login": {
+                                        "description": "login success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "name": "Ari Setiawan"
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "change profile loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 201,
+                                                "message": "failed change profile"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get Users",
+                "description": "get users related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_users_v1_users_get",
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data": {
+                                        "description": "get users success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "name": "Ari Setiawan",
+                                                "role_name": "super_admin",
+                                                "created": "2021-11-08 12:00:00"
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data users loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 201,
+                                                "message": "failed change profile"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/users/reset": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Reset Password",
+                "description": "reset password related stock Dashboard.",
+                "operationId": "reset_password_v1_users_reset_put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Token",
+                            "type": "string"
+                        },
+                        "name": "token",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "New Password",
+                            "type": "string"
+                        },
+                        "name": "new_password",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/users/status": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update Status",
+                "description": "update status related stock Dashboard.",
+                "operationId": "update_status_v1_users_status_put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Uid",
+                            "type": "integer"
+                        },
+                        "name": "uid",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Status",
+                            "enum": [
+                                "Active",
+                                "Inactive"
+                            ],
+                            "type": "string",
+                            "default": ""
+                        },
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/client": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "summary": "Get Client",
+                "description": "get client detail related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_client_v1_client_get",
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data client": {
+                                        "description": "data client success loaded from database",
+                                        "value": {
+                                            "data": [
+                                                {
+                                                    "client_id": "0000001",
+                                                    "client_name": "AAA"
+                                                },
+                                                {
+                                                    "client_id": "0000002",
+                                                    "client_name": "BBB"
+                                                }
+                                            ],
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data client success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/shares/{clientId}": {
+            "get": {
+                "tags": [
+                    "Shares"
+                ],
+                "summary": "Get Shares",
+                "description": "get shares detail related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_shares_v1_shares__clientId__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Clientid",
+                            "type": "string"
+                        },
+                        "name": "clientId",
+                        "in": "path"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Portocode",
+                            "type": "string"
+                        },
+                        "name": "portoCode",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data shares": {
+                                        "description": "data shares success loaded from database",
+                                        "value": {
+                                            "data": [
+                                                {
+                                                    "shares": "MNCN",
+                                                    "total_shares": 130000,
+                                                    "date": "2021-09-01"
+                                                },
+                                                {
+                                                    "shares": "BHIT",
+                                                    "total_shares": 120000,
+                                                    "date": "2021-09-01"
+                                                }
+                                            ],
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data shares success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/remark/transaction-list/{transactionListId}": {
+            "get": {
+                "tags": [
+                    "Remark"
+                ],
+                "summary": "Get Remark",
+                "description": "get remark related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_remark_v1_remark_transaction_list__transactionListId__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionlistid",
+                            "type": "integer"
+                        },
+                        "name": "transactionListId",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data shares": {
+                                        "description": "data shares success loaded from database",
+                                        "value": {
+                                            "data": [
+                                                {
+                                                    "id": 1,
+                                                    "transaction_id": 1,
+                                                    "message": ""
+                                                }
+                                            ],
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data remark success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/remark/create": {
+            "post": {
+                "tags": [
+                    "Remark"
+                ],
+                "summary": "Create Remark",
+                "description": "create remark related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "create_remark_v1_remark_create_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/remark"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success create data remark": {
+                                        "description": "data remark success created from database",
+                                        "value": {
+                                            "data": [],
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data remark failed create from database",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "failed create data"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/remark/update": {
+            "put": {
+                "tags": [
+                    "Remark"
+                ],
+                "summary": "Update Remark",
+                "description": "update remark related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "update_remark_v1_remark_update_put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionlistid",
+                            "type": "integer"
+                        },
+                        "name": "transactionListId",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateRemark"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/database": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get Transaction For Database",
+                "description": "get all transaction for database related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_transaction_for_database_v1_transaction_database_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Transactionid",
+                            "type": "integer"
+                        },
+                        "name": "transactionId",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Transactionlistid",
+                            "type": "integer"
+                        },
+                        "name": "transactionlistId",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Status",
+                            "enum": [
+                                "Review",
+                                "Need Review",
+                                "Approved",
+                                "Rejected"
+                            ],
+                            "type": "string",
+                            "default": ""
+                        },
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Shares",
+                            "enum": [
+                                "MNCN",
+                                "BHIT",
+                                "BMTR",
+                                "FXMD"
+                            ],
+                            "type": "string",
+                            "default": ""
+                        },
+                        "name": "shares",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Fromdate",
+                            "type": "string"
+                        },
+                        "name": "fromDate",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Todate",
+                            "type": "string"
+                        },
+                        "name": "toDate",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 10
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Sort By",
+                            "enum": [
+                                "created"
+                            ],
+                            "type": "string",
+                            "default": "created"
+                        },
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type Sort",
+                            "enum": [
+                                "DESC",
+                                "ASC"
+                            ],
+                            "type": "string",
+                            "default": "DESC"
+                        },
+                        "name": "type_sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data transaction": {
+                                        "description": "data transaction success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "id": 5,
+                                                "created": "2021-10-25T09:19:53.740000",
+                                                "client_id": "0000001",
+                                                "client_id_shares": "00000002",
+                                                "shares_name": "MNCN",
+                                                "total_shares": 50000,
+                                                "percentage_shares": 20.01,
+                                                "avg_cost": "string",
+                                                "ts_type": "TS",
+                                                "beneficial_owner": "string"
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data transaction success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/report": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get Transaction For Report",
+                "description": "get all transaction for database related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_transaction_for_report_v1_transaction_report_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Clientid",
+                            "type": "string"
+                        },
+                        "name": "clientId",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Shares",
+                            "enum": [
+                                "MNCN",
+                                "BHIT",
+                                "BMTR",
+                                "FXMD"
+                            ],
+                            "type": "string",
+                            "default": ""
+                        },
+                        "name": "shares",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Fromdate",
+                            "type": "string"
+                        },
+                        "name": "fromDate",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Todate",
+                            "type": "string"
+                        },
+                        "name": "toDate",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 10
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Sort By",
+                            "enum": [
+                                "created"
+                            ],
+                            "type": "string",
+                            "default": "created"
+                        },
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type Sort",
+                            "enum": [
+                                "DESC",
+                                "ASC"
+                            ],
+                            "type": "string",
+                            "default": "DESC"
+                        },
+                        "name": "type_sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data transaction": {
+                                        "description": "data transaction success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "client_id": "0000001",
+                                                "client_name": "AAA",
+                                                "shares": "BHIT",
+                                                "total_shares": 120000,
+                                                "latest_input": "2021-09-19T18:00:00",
+                                                "latest_update": "2021-09-19T00:00:00",
+                                                "total_shares_update": 25000
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data transaction success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/overall-report": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get Transaction For Overall Report",
+                "description": "get all transaction for overall report related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_transaction_for_overall_report_v1_transaction_overall_report_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Filterby",
+                            "enum": [
+                                "All",
+                                "Shares",
+                                "Group",
+                                "TS",
+                                "Pledge"
+                            ],
+                            "type": "string",
+                            "default": "All"
+                        },
+                        "name": "filterBy",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Filtertype",
+                            "type": "string"
+                        },
+                        "name": "filterType",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Search",
+                            "type": "string"
+                        },
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 10
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Sort By",
+                            "enum": [
+                                "client_id",
+                                "id"
+                            ],
+                            "type": "string",
+                            "default": "id"
+                        },
+                        "name": "sort_by",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type Sort",
+                            "enum": [
+                                "DESC",
+                                "ASC"
+                            ],
+                            "type": "string",
+                            "default": "DESC"
+                        },
+                        "name": "type_sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data transaction": {
+                                        "description": "data overall report success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "client_id": "0000001",
+                                                "client_name": "AAA",
+                                                "shares": "BHIT",
+                                                "total_shares": 120000,
+                                                "latest_input": "2021-09-19T18:00:00",
+                                                "latest_update": "2021-09-19T00:00:00",
+                                                "total_shares_update": 25000
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data ovarall report success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/shares-selection": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get Transaction For Shares Selection",
+                "description": "get all transaction for overall report related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_transaction_for_shares_selection_v1_transaction_shares_selection_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Shares",
+                            "enum": [
+                                "All",
+                                "MNCN",
+                                "BHIT",
+                                "KPIG",
+                                "BMTR",
+                                "IPTV",
+                                "MSIN",
+                                "BCAP",
+                                "BABP",
+                                "MSKY"
+                            ],
+                            "type": "string",
+                            "default": "All"
+                        },
+                        "name": "shares",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data transaction": {
+                                        "description": "data shares selection success loaded from database",
+                                        "value": {
+                                            "data": {},
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data shares selection success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/get-transaction-update/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get Transaction For Get Update",
+                "description": "get all transaction for database related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_transaction_for_get_update_v1_transaction_get_transaction_update__transactionId__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionid",
+                            "type": "integer"
+                        },
+                        "name": "transactionId",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data transaction": {
+                                        "description": "data transaction success loaded from database",
+                                        "value": {
+                                            "data": {
+                                                "client_id": "0000001",
+                                                "client_name": "AAA",
+                                                "shares": "BHIT",
+                                                "total_shares": 120000,
+                                                "transactionList": [
+                                                    {
+                                                        "id": 1,
+                                                        "source": "MSEK",
+                                                        "client_id_shares": "00000002",
+                                                        "shares_name": "MNCN",
+                                                        "total_shares": 12000,
+                                                        "percentage_shares": 20.01,
+                                                        "avg_cost": "string",
+                                                        "ts_type": "TS",
+                                                        "beneficial_owner": "string",
+                                                        "group_type": "GROUP",
+                                                        "pledge_type": "Pledge",
+                                                        "collateral_ration": "string",
+                                                        "total_loan": "0",
+                                                        "percentage_loan": "string",
+                                                        "lender_name": "string",
+                                                        "borrower_name": "string",
+                                                        "term_condition": "string",
+                                                        "due_date": "2021-10-21T12:54:12",
+                                                        "note": "string"
+                                                    }
+                                                ]
+                                            },
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data transaction success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/create": {
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Create Transaction",
+                "description": "create transaction related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "create_transaction_v1_transaction_create_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/transactions"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data transaction": {
+                                        "description": "data transaction success created from database",
+                                        "value": {
+                                            "data": [],
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data transaction failed create from database",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "failed create data"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/update": {
+            "put": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update Transaction",
+                "description": "Update transaction detail",
+                "operationId": "update_transaction_v1_transaction_update_put",
+                "parameters": [
+                    {
+                        "description": "transactionListId",
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionlistid",
+                            "minimum": 1,
+                            "type": "integer",
+                            "description": "transactionListId"
+                        },
+                        "name": "transactionListId",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/updateTransaction"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/delete": {
+            "delete": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Delete",
+                "description": "delete transaction",
+                "operationId": "delete_v1_transaction_delete_delete",
+                "parameters": [
+                    {
+                        "description": "transactionListId",
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionlistid",
+                            "type": "integer",
+                            "description": "transactionListId"
+                        },
+                        "name": "transactionListId",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/update-status": {
+            "put": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update Status",
+                "description": "update status",
+                "operationId": "update_status_v1_transaction_update_status_put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionid",
+                            "type": "integer"
+                        },
+                        "name": "transactionId",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Status",
+                            "type": "string"
+                        },
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/create-new-list": {
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Create New Transaction List",
+                "description": "Create new transaction list",
+                "operationId": "create_new_transaction_list_v1_transaction_create_new_list_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/addNewList"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/transaction/transaction-list-latest": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get Transaction List Latest",
+                "description": "Get transaction list latest",
+                "operationId": "get_transaction_list_latest_v1_transaction_transaction_list_latest_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Clientid",
+                            "type": "string"
+                        },
+                        "name": "clientId",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Portocode",
+                            "type": "string"
+                        },
+                        "name": "portoCode",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        },
+        "/v1/download/shares-selection": {
+            "get": {
+                "tags": [
+                    "Download"
+                ],
+                "summary": "Download Shares Selection Pdf",
+                "operationId": "download_shares_selection_pdf_v1_download_shares_selection_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Shares",
+                            "enum": [
+                                "MNCN",
+                                "BHIT",
+                                "BMTR",
+                                "FXMD"
+                            ],
+                            "type": "string",
+                            "default": ""
+                        },
+                        "name": "shares",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/octet-stream": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/download/overall-report": {
+            "get": {
+                "tags": [
+                    "Download"
+                ],
+                "summary": "Download Shares Selection Pdf",
+                "operationId": "download_shares_selection_pdf_v1_download_overall_report_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Filterby",
+                            "enum": [
+                                "All",
+                                "Shares",
+                                "Beneficial Owner",
+                                "Group",
+                                "NON Group",
+                                "TS",
+                                "NON TS",
+                                "Pledge",
+                                "Non Pledge"
+                            ],
+                            "type": "string",
+                            "default": "All"
+                        },
+                        "name": "filterBy",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Filtertype",
+                            "type": "string"
+                        },
+                        "name": "filterType",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Search",
+                            "type": "string"
+                        },
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/log/activity/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Log Activity"
+                ],
+                "summary": "Get Log Activity",
+                "description": "get log related stock Dashboard. use fields parameter to collect spesific informations",
+                "operationId": "get_log_activity_v1_log_activity__transactionId__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Transactionid",
+                            "type": "integer"
+                        },
+                        "name": "transactionId",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Possible success responses",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "success get data shares": {
+                                        "description": "data log success loaded from database",
+                                        "value": {
+                                            "data": [
+                                                {
+                                                    "id": 1,
+                                                    "transaction_id": 1,
+                                                    "log": ""
+                                                }
+                                            ],
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    },
+                                    "success get data but empty": {
+                                        "description": "data log success loaded from database but empty",
+                                        "value": {
+                                            "data": "null",
+                                            "meta": {},
+                                            "status": {
+                                                "code": 0,
+                                                "message": "success"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWTBearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateUser": {
+                "title": "CreateUser",
+                "required": [
+                    "name",
+                    "password",
+                    "email",
+                    "role_id"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "type": "string"
+                    },
+                    "role_id": {
+                        "title": "Role Id",
+                        "type": "integer"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "User": {
+                "title": "User",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "title": "Email",
+                        "type": "string"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "addNewList": {
+                "title": "addNewList",
+                "required": [
+                    "source",
+                    "transaction_id",
+                    "client_id_shares",
+                    "client_id_shares_name",
+                    "shares_name",
+                    "total_shares",
+                    "percentage_shares",
+                    "ts_type",
+                    "group_type",
+                    "pledge_type",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "$ref": "#/components/schemas/sourceEnum"
+                    },
+                    "transaction_id": {
+                        "title": "Transaction Id",
+                        "type": "integer"
+                    },
+                    "client_id_shares": {
+                        "title": "Client Id Shares",
+                        "type": "string"
+                    },
+                    "client_id_shares_name": {
+                        "title": "Client Id Shares Name",
+                        "type": "string"
+                    },
+                    "shares_name": {
+                        "title": "Shares Name",
+                        "type": "string"
+                    },
+                    "total_shares": {
+                        "title": "Total Shares",
+                        "type": "string"
+                    },
+                    "percentage_shares": {
+                        "title": "Percentage Shares",
+                        "type": "number"
+                    },
+                    "avg_cost": {
+                        "title": "Avg Cost",
+                        "type": "string"
+                    },
+                    "ts_type": {
+                        "$ref": "#/components/schemas/tsEnum"
+                    },
+                    "beneficial_owner": {
+                        "title": "Beneficial Owner",
+                        "type": "string"
+                    },
+                    "group_type": {
+                        "$ref": "#/components/schemas/groupEnum"
+                    },
+                    "pledge_type": {
+                        "$ref": "#/components/schemas/pledgeEnum"
+                    },
+                    "collateral_ration": {
+                        "title": "Collateral Ration",
+                        "type": "string"
+                    },
+                    "total_loan": {
+                        "title": "Total Loan",
+                        "type": "integer"
+                    },
+                    "percentage_loan": {
+                        "title": "Percentage Loan",
+                        "type": "string"
+                    },
+                    "lender_name": {
+                        "title": "Lender Name",
+                        "type": "string"
+                    },
+                    "borrower_name": {
+                        "title": "Borrower Name",
+                        "type": "string"
+                    },
+                    "term_condition": {
+                        "title": "Term Condition",
+                        "type": "string"
+                    },
+                    "due_date": {
+                        "title": "Due Date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "note": {
+                        "title": "Note",
+                        "type": "string"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/statusEnum"
+                    }
+                }
+            },
+            "changePassword": {
+                "title": "changePassword",
+                "required": [
+                    "current_password",
+                    "new_password"
+                ],
+                "type": "object",
+                "properties": {
+                    "current_password": {
+                        "title": "Current Password",
+                        "type": "string"
+                    },
+                    "new_password": {
+                        "title": "New Password",
+                        "type": "string"
+                    }
+                }
+            },
+            "changeProfile": {
+                "title": "changeProfile",
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    }
+                }
+            },
+            "forgotPassword": {
+                "title": "forgotPassword",
+                "required": [
+                    "email"
+                ],
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "title": "Email",
+                        "type": "string"
+                    }
+                }
+            },
+            "groupEnum": {
+                "title": "groupEnum",
+                "enum": [
+                    "GROUP",
+                    "SPV",
+                    "NON GROUP"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "pledgeEnum": {
+                "title": "pledgeEnum",
+                "enum": [
+                    "Pledge",
+                    "Unpledge"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "remark": {
+                "title": "remark",
+                "required": [
+                    "transaction_list_id"
+                ],
+                "type": "object",
+                "properties": {
+                    "transaction_list_id": {
+                        "title": "Transaction List Id",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "sourceEnum": {
+                "title": "sourceEnum",
+                "enum": [
+                    "MSEK",
+                    "NON MSEK"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "statusEnum": {
+                "title": "statusEnum",
+                "enum": [
+                    "Review",
+                    "Need Review",
+                    "Approved",
+                    "Rejected"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "transactionList": {
+                "title": "transactionList",
+                "required": [
+                    "source",
+                    "client_id_shares",
+                    "client_id_shares_name",
+                    "shares_name",
+                    "total_shares",
+                    "percentage_shares",
+                    "ts_type",
+                    "group_type",
+                    "pledge_type",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "$ref": "#/components/schemas/sourceEnum"
+                    },
+                    "client_id_shares": {
+                        "title": "Client Id Shares",
+                        "type": "string"
+                    },
+                    "client_id_shares_name": {
+                        "title": "Client Id Shares Name",
+                        "type": "string"
+                    },
+                    "shares_name": {
+                        "title": "Shares Name",
+                        "type": "string"
+                    },
+                    "total_shares": {
+                        "title": "Total Shares",
+                        "type": "string"
+                    },
+                    "percentage_shares": {
+                        "title": "Percentage Shares",
+                        "type": "number"
+                    },
+                    "avg_cost": {
+                        "title": "Avg Cost",
+                        "type": "string"
+                    },
+                    "ts_type": {
+                        "$ref": "#/components/schemas/tsEnum"
+                    },
+                    "beneficial_owner": {
+                        "title": "Beneficial Owner",
+                        "type": "string"
+                    },
+                    "group_type": {
+                        "$ref": "#/components/schemas/groupEnum"
+                    },
+                    "pledge_type": {
+                        "$ref": "#/components/schemas/pledgeEnum"
+                    },
+                    "collateral_ration": {
+                        "title": "Collateral Ration",
+                        "type": "string"
+                    },
+                    "total_loan": {
+                        "title": "Total Loan",
+                        "type": "integer"
+                    },
+                    "percentage_loan": {
+                        "title": "Percentage Loan",
+                        "type": "string"
+                    },
+                    "lender_name": {
+                        "title": "Lender Name",
+                        "type": "string"
+                    },
+                    "borrower_name": {
+                        "title": "Borrower Name",
+                        "type": "string"
+                    },
+                    "term_condition": {
+                        "title": "Term Condition",
+                        "type": "string"
+                    },
+                    "due_date": {
+                        "title": "Due Date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "note": {
+                        "title": "Note",
+                        "type": "string"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/statusEnum"
+                    }
+                }
+            },
+            "transactions": {
+                "title": "transactions",
+                "required": [
+                    "master_shares_id",
+                    "porto_code",
+                    "client_id",
+                    "transactionList"
+                ],
+                "type": "object",
+                "properties": {
+                    "master_shares_id": {
+                        "title": "Master Shares Id",
+                        "type": "integer"
+                    },
+                    "porto_code": {
+                        "title": "Porto Code",
+                        "type": "string"
+                    },
+                    "client_id": {
+                        "title": "Client Id",
+                        "type": "string"
+                    },
+                    "transactionList": {
+                        "title": "Transactionlist",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/transactionList"
+                        }
+                    }
+                }
+            },
+            "tsEnum": {
+                "title": "tsEnum",
+                "enum": [
+                    "TS",
+                    "NON TS"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "updateRemark": {
+                "title": "updateRemark",
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "updateTransaction": {
+                "title": "updateTransaction",
+                "required": [
+                    "source",
+                    "client_id_shares",
+                    "client_id_shares_name",
+                    "shares_name",
+                    "total_shares",
+                    "percentage_shares",
+                    "ts_type",
+                    "group_type",
+                    "pledge_type",
+                    "status"
+                ],
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "$ref": "#/components/schemas/sourceEnum"
+                    },
+                    "client_id_shares": {
+                        "title": "Client Id Shares",
+                        "type": "string"
+                    },
+                    "client_id_shares_name": {
+                        "title": "Client Id Shares Name",
+                        "type": "string"
+                    },
+                    "shares_name": {
+                        "title": "Shares Name",
+                        "type": "string"
+                    },
+                    "total_shares": {
+                        "title": "Total Shares",
+                        "type": "string"
+                    },
+                    "percentage_shares": {
+                        "title": "Percentage Shares",
+                        "type": "number"
+                    },
+                    "avg_cost": {
+                        "title": "Avg Cost",
+                        "type": "string"
+                    },
+                    "ts_type": {
+                        "$ref": "#/components/schemas/tsEnum"
+                    },
+                    "beneficial_owner": {
+                        "title": "Beneficial Owner",
+                        "type": "string"
+                    },
+                    "group_type": {
+                        "$ref": "#/components/schemas/groupEnum"
+                    },
+                    "pledge_type": {
+                        "$ref": "#/components/schemas/pledgeEnum"
+                    },
+                    "collateral_ration": {
+                        "title": "Collateral Ration",
+                        "type": "string"
+                    },
+                    "total_loan": {
+                        "title": "Total Loan",
+                        "type": "integer"
+                    },
+                    "percentage_loan": {
+                        "title": "Percentage Loan",
+                        "type": "string"
+                    },
+                    "lender_name": {
+                        "title": "Lender Name",
+                        "type": "string"
+                    },
+                    "borrower_name": {
+                        "title": "Borrower Name",
+                        "type": "string"
+                    },
+                    "term_condition": {
+                        "title": "Term Condition",
+                        "type": "string"
+                    },
+                    "due_date": {
+                        "title": "Due Date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "note": {
+                        "title": "Note",
+                        "type": "string"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/statusEnum"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "JWTBearer": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Stock Dashboard",
+            "description": "All API stock dashboard"
+        }
+    ]
+}
