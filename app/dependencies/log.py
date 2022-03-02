@@ -38,6 +38,7 @@ class LogFilter(logging.Filter):
 
     def filter(self, record):
         self._applyAttr(record)
+        record.pathname = record.pathname.replace(os.getcwd(),"")
         return record.levelno in self.levels
 
 class LogStreamer(logging.StreamHandler):
@@ -66,8 +67,7 @@ class AppLogger(logging.getLoggerClass()):
         self._filter.levels = levels
 
 globalFilter = LogFilter(
-    logFormat = '[%(asctime)s][%(levelname)s][%(service)s][%(filename)s][line:%(lineno)s] - %(message)s',
-    service = os.getenv("SERVICE_NAME"),
+    logFormat = '[%(asctime)s][%(levelname)s][%(pathname)s][line:%(lineno)s] - %(message)s',
     level = os.getenv('LOG_LEVEL')
     )
 

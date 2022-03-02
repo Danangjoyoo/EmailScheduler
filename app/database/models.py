@@ -5,11 +5,18 @@ from datetime import datetime
 
 Base = declarative_base()
 
+class Email(Base):
+    __tablename__ = "email"
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    name = Column(String(100), nullable=False)
+    address = Column(String(100), nullable=False)
+
 class User(Base):
     __tablename__ = "user"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(String(100), nullable=False)
-    password = Column(String(100),nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    email_id = Column(Integer, ForeignKey("email.id"), unique=True)
+    email = relationship("Email")
+    password = Column(String(100), nullable=False)
 
 class Event(Base):
     __tablename__ = "event"
@@ -21,7 +28,10 @@ class Event(Base):
     timestamp = Column(DateTime, nullable=False)
     done = Column(Boolean, nullable=False, default=False)
 
-class UserHasEvent(Base):
-    __tablename__ = "user_has_event"
-    user_id = Column(Integer, ForeignKey("user.id"))
+class EmailHasEvent(Base):
+    __tablename__ = "email_has_event"
+    id = Column(Integer, primary_key=True)
+    email_id = Column(Integer, ForeignKey("email.id"))
+    email = relationship("Email")
     event_id = Column(Integer, ForeignKey("event.id"))
+    event = relationship("Event")
