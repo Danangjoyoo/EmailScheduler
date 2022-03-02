@@ -5,7 +5,8 @@ from .controller import (
     create_email, 
     update_email,
     remove_email,
-    create_scheduled_email
+    create_scheduled_email,
+    emailCrud
 )
 from .schema import EmailPydantic, ScheduledEmailPydantic
 from ...dependencies.utils import create_response, status, QueryPaginationParams

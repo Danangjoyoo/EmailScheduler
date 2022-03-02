@@ -14,21 +14,26 @@ from ...dependencies.utils import (
 )
 from ...dependencies.log import logger
 
-crud = BaseCRUD(models.Email)
+emailCrud = BaseCRUD(models.Email)
 
 async def show_email(
     request: Request,
     session: AsyncSession
 ):
-    getParams = QueryPaginationParams(**request.args.to_dict())
-    return await crud.read(getParams, session)
+    query_dict = request.args.to_dict()
+    getParams = QueryPaginationParams(**query_dict)
+    if "id" in query_dict:
+        wc = emailCrud.where(models.Email.id==query_dict["id"])
+        return await emailCrud.read(getParams, session, wc)
+    else:
+        return await emailCrud.read(getParams, session)
 
 async def create_email(
     request: Request,
     session: AsyncSession
 ):
     email = EmailPydantic(**request.json)
-    return await crud.create(email, session)
+    return await emailCrud.create(email, session)
 
 async def update_email(
     request: Request,
@@ -36,13 +41,13 @@ async def update_email(
     session: AsyncSession
 ):
     email = EmailPydantic(**request.json)
-    return await crud.update(email, id, session)
+    return await emailCrud.update(email, id, session)
 
 async def remove_email(
     id: int,
     session: AsyncSession
 ):
-    return await crud.delete(id, session)
+    return await emailCrud.delete(id, session)
 
 async def create_scheduled_email(
         request: Request,

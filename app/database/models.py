@@ -8,8 +8,7 @@ Base = declarative_base()
 class Email(Base):
     __tablename__ = "email"
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    name = Column(String(100), nullable=False)
-    address = Column(String(100), nullable=False)
+    address = Column(String(100), nullable=False, unique=True)
 
 class User(Base):
     __tablename__ = "user"

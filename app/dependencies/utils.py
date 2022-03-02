@@ -5,6 +5,7 @@ from sqlalchemy import asc, delete, desc, func, select, update
 from sqlalchemy.sql.selectable import Select
 from typing import Any, Optional, Union
 from pydantic import BaseModel
+from pydantic.utils import Representation
 
 from ..database import models
 from ..dependencies.log import logger
@@ -18,6 +19,7 @@ class StatusResponse:
     success = 0
     error = 100
     data_is_not_exist = 101
+    data_is_not_updated = 102
 
 class StatusCreator(StatusResponse):
     def __init__(self):
@@ -89,9 +91,13 @@ class BaseSchema(BaseModel):
     
     @classmethod
     def filter_data(cls, **data):
+        annots = []
+        for relation_class in cls.mro():
+            if relation_class not in [BaseSchema, BaseModel, Representation, object]:
+                annots.extend(relation_class.__annotations__)
         newData = {}
         for k, v in data.items():
-            if k in cls.__annotations__:
+            if k in annots:
                 newData[k] = v
         return newData
 
@@ -375,10 +381,18 @@ class BaseCRUD:
     def where(self, *whereExpression, **whereClause):
         return BaseWhereClause(self.classModel, *whereExpression, **whereClause)
 
-    async def read(self, getParams: QueryPaginationParams, session: AsyncSession):
+    async def read(
+            self,
+            getParams: QueryPaginationParams,
+            session: AsyncSession,
+            whereClauseObject: Optional[BaseWhereClause] = None,
+            **whereClause
+        ):
         try:
             paginator = QueryPaginator(getParams, self.classModel)
             query = paginator.rawQuery
+            if whereClauseObject:
+                query = whereClauseObject.applyWhereObject(query, whereClause)
             return await paginator.execute_pagination(session, query)
         except Exception as e:
             logger.error(str(e))

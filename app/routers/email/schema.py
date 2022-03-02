@@ -3,7 +3,6 @@ from datetime import datetime
 from ...dependencies.utils import BaseSchema
 
 class EmailPydantic(BaseSchema):
-    name: str
     address: str
 
 class ScheduledEmailPydantic(BaseSchema):

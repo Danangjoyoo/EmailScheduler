@@ -13,6 +13,16 @@
                 "parameters": [
                     {
                         "required": false,
+                        "schema": {
+                            "title": "ID",
+                            "type": "string",
+                            "default": null
+                        },
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
                         "description": "Show the selected column, leave it empty to show all",
                         "schema": {
                             "title": "Fields",
@@ -97,7 +107,8 @@
                                         "type": "string",
                                         "maximum": 100
                                     }
-                                }    
+                                },
+                                "required":true
                             }
                         }
                     }
@@ -228,6 +239,208 @@
                         "content":{"application/json":{
                             "schema":{}
                         }}
+                    }
+                }
+            }
+        },
+        "/user":{
+            "get":{
+                "tags":["User"],
+                "summary": "Get User",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "ID",
+                            "type": "string"
+                        },
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Show the selected column, leave it empty to show all",
+                        "schema": {
+                            "title": "Fields",
+                            "type": "string"
+                        },
+                        "name": "fields",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "minimum": 1,
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Data limit in 1 page",
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 100,
+                            "exclusiveMinimum": false,
+                            "type": "integer",
+                            "default": 20
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Sort by available column",
+                        "schema": {
+                            "title": "Sortby",
+                            "type": "string",
+                            "default": "id"
+                        },
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Sort the query: `asc` or `desc`",
+                        "schema": {
+                            "title": "SortType",
+                            "type": "string",
+                            "default": "asc"
+                        },
+                        "name": "sortType",
+                        "in": "query"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            },
+            "post":{
+                "tags": ["User"],
+                "summary": "Create User",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "title": "CreateUser",
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "title": "email",
+                                        "type": "string",
+                                        "maximum": 100
+                                    },
+                                    "password":{
+                                        "title": "password",
+                                        "type": "string",
+                                        "maximum": 100
+                                    }
+                                },
+                                "required": true
+                            },
+                            "example":{
+                                "email": "string@gmail.com",
+                                "password": "string"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            }
+        },
+        "/user/{id}":{
+            "put":{
+                "tags": ["User"],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "title": "CreateUser",
+                                "type": "object",
+                                "properties": {
+                                    "email":{
+                                        "title": "email",
+                                        "type": "string",
+                                        "maximum": 100,
+                                        "required": false
+                                    },
+                                    "password":{
+                                        "title": "password",
+                                        "type": "string",
+                                        "maximum": 100,
+                                        "required": false
+                                    }
+                                }
+                            },
+                            "example":{
+                                "email": "string@gmail.com",
+                                "password": "string"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags": ["User"],
+                "summary": "Delete User",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
                     }
                 }
             }
