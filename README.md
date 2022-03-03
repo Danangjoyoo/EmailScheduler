@@ -24,6 +24,12 @@ Email scheduler app using Flask and SQLAlchemy
     python main.py
     ```
 
+## How to open swagger-UI?
+you can access it from here
+```
+http://localhost:3000/docs
+```
+
 ## How to stop?
 You can click `CTRL+C` twice (2x) :
 - 1st click to abort the worker
@@ -54,11 +60,11 @@ You can click `CTRL+C` twice (2x) :
     2. Open `htmlcov/index.html` to your browser
         ![Alt text](docs/coverage-1.png )
 
-## How to open swagger-UI?
-you can access it from here
-```
-http://localhost:3000/docs
-```
 
+## Entity Relationship Diagram
+![Alt text](docs/schema.png )
+
+## DB Schema
+![Alt text](docs/dbschema.png )
 ## Snapshot of '\save_email' UI
 ![Alt text](docs/screenshot-save-email-1.png )
