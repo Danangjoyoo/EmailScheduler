@@ -4,6 +4,7 @@ Email scheduler app using Flask and SQLAlchemy
 # Notes:
 - `docker-compose` is not ready yet
 - `authentication` for sending email is not set. The default user to send the emails is User-1 which is `joy.choco.banana@gmail.com`
+- Default Base URL used in this app `localhost:3000`
 
 ## How to run? (Ubuntu)
 1. Create virtualenv
