@@ -53,8 +53,8 @@ class Scheduler():
         try:
             datas = []
             async with conn.session() as sess:
-                # timestamp_now_in_utc_plus_8 = datetime.utcnow()+timedelta(hours=8)
-                timestamp_now_in_utc_plus_8 = datetime.now()
+                timestamp_now_in_utc_plus_8 = datetime.utcnow()+timedelta(hours=8)
+                # timestamp_now_in_utc_plus_8 = datetime.now()
                 emailQuery = select(models.Email
                     ).where(models.Email.timestamp<=timestamp_now_in_utc_plus_8
                     ).where(models.Email.sent==False)
