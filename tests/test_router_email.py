@@ -1,6 +1,31 @@
 import os, pytest
+from datetime import datetime
 from . import dummy
 
+def test_save_email_success(client):
+    dummy.setup_dummy_event(client, 1)
+    data = {
+        "event_id": 1,
+        "email_subject": "My Subject x",
+        "email_content": "My Content a",
+        "timestamp": datetime.now().isoformat()
+    }
+    response = client.post("/save_email", json=data)
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 0
+
+def test_save_email_failed(client):
+    data = {
+        "event_id": 1,
+        "email_subject": "My Subject x",
+        "email_content": "My Content a",
+        "timestamp": datetime.now().isoformat()
+    }
+    response = client.post("/save_email", json=data)
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 100
 
 def test_list_email_success(client):
     response = client.get("/email")

@@ -48,7 +48,7 @@ You can click `CTRL+C` twice (2x) :
 - Test All Created Case With Coverage HTML
     1. Run
         ```bash
-        pytest --cov=app ==cov=report html
+        pytest --cov=app --cov-report html
         ```
     2. Open `htmlcov/index.html` to your browser
         ![Alt text](docs/coverage-1.png )
