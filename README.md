@@ -19,6 +19,36 @@ Email scheduler app using Flask and SQLAlchemy
     python main.py
     ```
 
+## How to stop?
+You can click `CTRL+C` twice (2x) :
+- 1st click to abort the worker
+- 2nd click to stop Flask
+
+## How to test?
+- Specific Test File
+    ```bash
+    pytest tests/{file.py}
+    ```
+- Specific Test Function
+    ```bash
+    pytest tests/{file.py}::{function_name}
+    ```
+- Test All Created Case
+    ```bash
+    pytest
+    ```
+- Test All Created Case With Coverage
+    ```bash
+    pytest --cov=app
+    ```
+- Test All Created Case With Coverage HTML
+    1. Run
+        ```bash
+        pytest --cov=app ==cov=report html
+        ```
+    2. Open `htmlcov/index.html` to your browser
+        ![Alt text](docs/coverage-1.png )
+
 ## How to open swagger-UI?
 you can access it from here
 ```

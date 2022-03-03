@@ -45,6 +45,7 @@ async def save_created_email():
         emailCtl.logger.error(e)
         return emailCtl.create_response(status=emailCtl.status.error(e))
 
+## email sender scheduler
 scheduler = Scheduler(interval=os.getenv("CHECK_INTERVAL"))
 
 async def startup():
