@@ -24,7 +24,7 @@ Email scheduler app using Flask and SQLAlchemy
     python main.py
     ```
 
-## How to open swagger-UI?
+## How to open Swagger-UI?
 you can access it from here
 ```
 http://localhost:3000/docs
@@ -66,5 +66,5 @@ You can click `CTRL+C` twice (2x) :
 
 ## DB Schema
 ![Alt text](docs/dbschema.png )
-## Snapshot of '\save_email' UI
+## Snapshot of `/save_email` in Swagger-UI
 ![Alt text](docs/screenshot-save-email-1.png )
