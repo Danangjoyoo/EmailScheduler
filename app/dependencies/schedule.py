@@ -145,9 +145,6 @@ class Scheduler():
                 self._queue.extend(emails)
                 if not self._queue_sender_active:
                     self.queue_sender()
-                # for email in emails:
-                #     for participant in email["participant"]:
-                #         self.send_email(email, participant["address"])
                 time.sleep(self._interval)
             except Exception as e:
                 logger.error(e)
