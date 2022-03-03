@@ -39,3 +39,12 @@ def setup_dummy_event(client, total):
         datas.append(data)
         client.post("/event", json=data)
     return datas
+
+def setup_dummy_participant(client, total):
+    setup_dummy_event(client, 1)
+    data = setup_dummy_email_address(client, 3)
+    datas = []
+    for i in range(total):
+        datas.append(data[i])
+        client.put("/event/1/participant", json=data[i])
+    return datas

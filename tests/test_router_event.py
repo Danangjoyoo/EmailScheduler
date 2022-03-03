@@ -54,3 +54,36 @@ def test_delete_event_failed(client):
     jsonResponse = response.json
     assert response.status_code == 200
     assert jsonResponse["status"]["code"] == 101
+
+def test_list_event_participant_succeed(client):
+    dummy.setup_dummy_participant(client, 1)
+    response = client.get("/event/1/participant")
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 0
+
+def test_set_event_participant_succeed(client):
+    dummy.setup_dummy_event(client, 1)
+    response = client.put("/event/1/participant", json={"address":"joy@gmail.com"})
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 0
+
+def test_set_event_participant_failed(client):
+    response = client.put("/event/1/participant", json={"address":"joy@gmail.com"})
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 100
+
+def test_delete_event_participant_succeed(client):
+    dummy.setup_dummy_participant(client, 1)
+    response = client.delete("/event/participant/1")
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 0
+
+def test_delete_event_participant_failed(client):
+    response = client.delete("/event/participant/1")
+    jsonResponse = response.json
+    assert response.status_code == 200
+    assert jsonResponse["status"]["code"] == 101
