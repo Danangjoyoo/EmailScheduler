@@ -22,9 +22,3 @@ class EditEmailPydantic(BaseSchema):
     subject: Optional[str] = None
     content: Optional[str] = None
     timestamp: Optional[datetime] = None
-
-class ScheduledEmailPydantic(BaseSchema):
-    event_id: int
-    subject: Optional[str] = ""
-    content: str
-    timestamp: datetime

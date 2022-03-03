@@ -53,7 +53,7 @@ async def startup():
 
 if __name__ == "__main__":
     asyncio.run(startup(), debug=True)
-    # scheduler.start()
+    scheduler.start()
     app.run(
         host=os.getenv("APP_HOST"),
         port=os.getenv("APP_PORT")

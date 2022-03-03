@@ -20,10 +20,22 @@ class Scheduler():
         self.worker_object = None
         self._run = False
         self._queue = []
+        self._queue_sender_active = False
 
     @worker("Queue Sender", on_abort=lambda: logger.info("Scheduler Stopped.."))
-    def sender_loop(self):
-        pass
+    def queue_sender(self):
+        while self._queue:
+            if not self._queue_sender_active:
+                self._queue_sender_active = True
+            poped_email = self._queue.pop()
+            total = len(poped_email["participant"])
+            success = 0
+            logger.info(f"Processing Queue Start.. total:{total}")
+            for participant in poped_email["participant"]:
+                send_success = self.send_email(poped_email, participant["address"])
+                success += int(send_success)
+            logger.info(f"Processing Queue End.. succeed:{success} failed:{total-success}")
+        self._queue_sender_active = False
 
     async def set_email_sent(self, event_id: int):
         try:
@@ -77,6 +89,7 @@ class Scheduler():
         email_data = email_data[0]
         participant_data = await self.wrap_participant(email.event_id, session)
         email_data["participant"] = participant_data
+        await self.set_email_sent(email.event_id)
         return email_data
 
     async def wrap_participant(self, event_id, session):
@@ -92,7 +105,7 @@ class Scheduler():
 
     def send_email(self, data, participant):
         try:
-            logger.info(f"Sending data.. data={str(data)}")
+            logger.info(f"Sending data.. sender={data['sender_email']} receiver={participant}")
             port = 465  # SSL
             smtp_server = "smtp.gmail.com"
             message = f"Subject: {data['subject']}\n{data['content']}"
@@ -116,7 +129,6 @@ class Scheduler():
                     logger.error(e)
                     raise e
                 server.sendmail(data["sender_email"], participant, message)
-                # asyncio.run(self.set_email_sent(data["event_id"]))
                 return True
         except Exception as e:
             logger.error(e)
@@ -130,9 +142,12 @@ class Scheduler():
             try:                
                 logger.info("Checking Schedule..")
                 emails = asyncio.run(self.check_scheduled_email())
-                for email in emails:
-                    for participant in email["participant"]:
-                        self.send_email(email, participant["address"])
+                self._queue.extend(emails)
+                if not self._queue_sender_active:
+                    self.queue_sender()
+                # for email in emails:
+                #     for participant in email["participant"]:
+                #         self.send_email(email, participant["address"])
                 time.sleep(self._interval)
             except Exception as e:
                 logger.error(e)
