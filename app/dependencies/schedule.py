@@ -22,7 +22,7 @@ class Scheduler():
         self._queue = []
         self._queue_sender_active = False
 
-    @worker("Queue Sender", on_abort=lambda: logger.info("Scheduler Stopped.."))
+    @worker("Queue Sender", on_abort=lambda: logger.info("Queue Process Stopped.."))
     def queue_sender(self):
         while self._queue:
             if not self._queue_sender_active:
