@@ -24,26 +24,22 @@ class Event(Base):
     owner = relationship("User")
     name = Column(String(100), nullable=False)
 
-class EmailBody(Base):
-    __tablename__ = "email_body"
-    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    subject = Column(String(300), nullable=True)
-    content = Column(Text, nullable=False)
-
 class Email(Base):
     __tablename__ = "email"
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     sender_id = Column(Integer, ForeignKey("user.id"))
     sender = relationship("User")
-    email_body_id = Column(Integer, ForeignKey("email_body.id"))
-    email_body = relationship("EmailBody")
+    event_id = Column(Integer, ForeignKey("event.id"))
+    event = relationship("Event")
+    subject = Column(String(300), nullable=True, default="")
+    content = Column(Text, nullable=False)
     timestamp = Column(DateTime, nullable=False)
     sent = Column(Boolean, nullable=False, default=False)
 
-class EmailRecipient(Base):
-    __tablename__ = "email_recipient"
+class EventParticipant(Base):
+    __tablename__ = "event_participant"
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    email_id = Column(Integer, ForeignKey("email.id"))
-    email = relationship("Email")
-    recipient_address_id = Column(Integer, ForeignKey("email_address.id"))
-    recipient = relationship("EmailAddress")
+    event_id = Column(Integer, ForeignKey("event.id"))
+    event = relationship("Event")
+    address_id = Column(Integer, ForeignKey("email_address.id"))
+    address = relationship("EmailAddress")

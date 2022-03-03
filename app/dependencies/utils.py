@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import load_only, decl_api
 from sqlalchemy import asc, delete, desc, func, select, update
 from sqlalchemy.sql.selectable import Select
-from typing import Any, Optional, Union
+from typing import Any, Dict, Optional, Union
 from pydantic import BaseModel
 from pydantic.utils import Representation
 
@@ -380,6 +380,18 @@ class BaseCRUD:
 
     def where(self, *whereExpression, **whereClause):
         return BaseWhereClause(self.classModel, *whereExpression, **whereClause)
+    
+    def filter_update_value(self, pydanticModel, additionalKey):
+        updates = {}
+        updateValue = pydanticModel.dict()
+        fields = [i for i in vars(self.classModel) if "_" not in [i[0], i[-1]]]
+        for key in fields:
+            if key in updateValue:
+                if updateValue[key] != None:
+                    updates[key] = updateValue[key]
+            if key in additionalKey:
+                updates[key] = additionalKey[key]
+        return updates
 
     async def read(
             self,
@@ -415,9 +427,15 @@ class BaseCRUD:
         id: Optional[int],
         session: AsyncSession,
         whereClauseObject: Optional[BaseWhereClause] = None,
+        additionalKey: Optional[Dict[str, Any]] = [],
         **whereClause
     ):
         try:
+            ## validate pydantic params
+            if not any([v!=None for k,v in vars(pydanticModel).items() if "_" not in [k[0], k[-1]]]):
+                return create_response(status=status.data_is_not_updated())
+
+            ## check existed data
             query = select(self.classModel)
             if id != None:
                 query = query.where(self.classModel.id == id)
@@ -425,6 +443,8 @@ class BaseCRUD:
                 query = whereClauseObject.applyWhereObject(query, whereClause)
             data = await session.execute(query)
             data = data.scalars().first()
+
+            ## update data if exist
             if not data:
                 return create_response(status=status.data_is_not_exist())
             else:
@@ -433,7 +453,8 @@ class BaseCRUD:
                     query = query.where(self.classModel.id == id)
                 if whereClauseObject:
                     query = whereClauseObject.applyWhereObject(query, whereClause)
-                query = query.values(**pydanticModel.dict())
+                updateValues = self.filter_update_value(pydanticModel, additionalKey)
+                query = query.values(**updateValues)
                 await session.execute(query)
                 await session.commit()
                 return create_response(status=status.success())

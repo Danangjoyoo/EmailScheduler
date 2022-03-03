@@ -10,4 +10,5 @@ COPY app /main/app
 COPY static /main/static
 COPY wait-for-it.sh .
 EXPOSE 3000
-CMD ["python3", "main/main.py"]
+RUN cd ./main
+CMD ["python3", "main.py"]

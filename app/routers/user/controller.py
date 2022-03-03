@@ -15,7 +15,6 @@ from ...dependencies.utils import (
     BaseCRUD
 )
 from ...dependencies.log import logger
-from ..email.rest import emailCrud
 
 userCrud = BaseCRUD(models.User)
 
@@ -23,15 +22,17 @@ async def show_user(
     request: Request,
     session: AsyncSession
 ):
+    print(session)
     query_dict = request.args.to_dict()
     getParams = QueryPaginationParams(**query_dict)
     selected = Selector(
         id=models.User.id,
-        email=models.Email.address,
+        email=models.EmailAddress.address,
         password=models.User.password
     )
     paginator = QueryPaginator(getParams, selected)
-    query = paginator.rawQuery.join(models.Email, models.Email.id==models.User.email_id)
+    query = paginator.rawQuery\
+        .join(models.EmailAddress, models.EmailAddress.id==models.User.email_address_id)
     if "id" in query_dict:
         query = query.where(models.User.id==query_dict["id"])
     return await paginator.execute_pagination(session, query)
@@ -43,14 +44,14 @@ async def create_user(
     try:
         createUserModel = CreateUserPydantic(**request.json)
 
-        session.add(models.Email(address=createUserModel.email))
+        session.add(models.EmailAddress(address=createUserModel.email))
         await session.commit()
 
-        emailQuery = select(models.Email).where(models.Email.address==createUserModel.email)
+        emailQuery = select(models.EmailAddress).where(models.EmailAddress.address==createUserModel.email)
         data = await session.execute(emailQuery)
         newEmail = data.scalars().first()
 
-        newUser = models.User(email_id=newEmail.id, password=createUserModel.password)
+        newUser = models.User(email_address_id=newEmail.id, password=createUserModel.password)
         session.add(newUser)
         await session.commit()
 
@@ -71,8 +72,8 @@ async def update_user(
         user = user.scalars().first()
         if user:
             if "email" in request.json:
-                emailQuery = update(models.Email
-                    ).where(models.Email.id==user.email_id
+                emailQuery = update(models.EmailAddress
+                    ).where(models.EmailAddress.id==user.email_address_id
                     ).values(address=request.json["email"])
                 await session.execute(emailQuery)
                 await session.commit()

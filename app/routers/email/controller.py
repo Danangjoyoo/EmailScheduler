@@ -1,7 +1,8 @@
-from flask import Request
+from datetime import datetime, timedelta
+import smtplib, ssl
+from flask import Request, session
 from sqlalchemy import select, update, func
 from sqlalchemy.ext.asyncio import AsyncSession
-import smtplib, ssl
 
 from . import schema
 from ...database import models, connection as conn
@@ -16,6 +17,7 @@ from ...dependencies.utils import (
 from ...dependencies.log import logger
 
 emailCrud = BaseCRUD(models.Email)
+addressCrud = BaseCRUD(models.EmailAddress)
 
 async def show_email(
     request: Request,
@@ -25,16 +27,17 @@ async def show_email(
     getParams = QueryPaginationParams(**query_dict)
     selected = Selector(
         id=models.Email.id,
+        event_name=models.Event.name,
         email_sender=models.EmailAddress.address,
-        email_subject=models.EmailBody.subject,
-        email_content=models.EmailBody.content,
+        email_subject=models.Email.subject,
+        email_content=models.Email.content,
         timestamp=models.Email.timestamp,
         sent=models.Email.sent
     )
     paginator = QueryPaginator(getParams, selected)
-    query = paginator.rawQuery
-    query = query.join(models.EmailAddress, models.EmailAddress.id==models.Email.sender_id)
-    query = query.join(models.EmailBody, models.EmailBody.id==models.Email.email_body_id)
+    query = paginator.rawQuery\
+        .join(models.EmailAddress, models.EmailAddress.id==models.Email.sender_id)\
+        .join(models.Event, models.Event.id==models.Email.event_id)
     return await paginator.execute_pagination(session, query)
 
 async def create_email(
@@ -49,7 +52,7 @@ async def update_email(
     id: int,
     session: AsyncSession
 ):
-    email = schema.EmailPydantic(**request.json)
+    email = schema.EditEmailPydantic(**request.json)
     return await emailCrud.update(email, id, session)
 
 async def remove_email(
@@ -57,9 +60,6 @@ async def remove_email(
     session: AsyncSession
 ):
     return await emailCrud.delete(id, session)
-
-
-addressCrud = BaseCRUD(models.EmailAddress)
 
 async def show_address(
     request: Request,
@@ -95,31 +95,26 @@ async def remove_address(
     return await addressCrud.delete(id, session)
 
 
+########## main function ########## main function ########## main function ########## main function 
+### main function ########## main function ########## main function ########## main function 
+########## main function ########## main function ########## main function ########## main function 
 
 
+## saat ini hanya bisa kirim lewat user-1 (joy.choco.banana@gmail.com)
+## ideally bisa menggunakan login untuk define user mana yang request
 async def create_scheduled_email(
-        request: Request,
-        session: AsyncSession
-    ):
-    scheduledEmail = ScheduledEmailPydantic(**request.json)
-    session.add(
-        models.Email(**scheduledEmail.dict())
-        )
-    await session.commit()
-    return create_response(status=status.success())
-
-async def set_email_sent(event_id: int):
-    try:
-        async with conn.session() as session:
-            query = update(models.Email
-                ).where(models.Email.event_id==event_id
-                ).values(sent=True)
-            await session.execute(query)
-            await session.commit()
-            return create_response(status=status.success())
-    except Exception as e:
-        return create_response(status=status.error(e))
-
-async def send_email(email: models.Email):
-    port = 587
-    smtp_server = "smtp.gmail.com"
+    request: Request,
+    session: AsyncSession
+):
+    event_id = request.json["event_id"]
+    subject = request.json["email_subject"]
+    content = request.json["email_content"]
+    timestamp = request.json["timestamp"]
+    email = schema.EmailPydantic(
+        sender_id=1,
+        event_id=event_id,
+        subject=subject,
+        content=content,
+        timestamp=timestamp
+    )
+    return await emailCrud.create(email, session)

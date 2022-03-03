@@ -11,16 +11,20 @@ class EmailAddressPydantic(BaseSchema):
         validate_email(v)
         return v
 
-class EmailBodyPydantic(BaseSchema):
-    subject: Optional[str] = ""
-    content: str
-
 class EmailPydantic(BaseSchema):
     sender_id: int
-    email_body_id: int
+    event_id: int
+    subject: Optional[str] = ""
+    content: str
     timestamp: datetime
-    sent: bool = False
 
-class EmailRecipient(BaseSchema):
-    email_id: int
-    recipient_address_id: int
+class EditEmailPydantic(BaseSchema):
+    subject: Optional[str] = None
+    content: Optional[str] = None
+    timestamp: Optional[datetime] = None
+
+class ScheduledEmailPydantic(BaseSchema):
+    event_id: int
+    subject: Optional[str] = ""
+    content: str
+    timestamp: datetime

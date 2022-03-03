@@ -6,6 +6,57 @@
         "title": "Flask App"
     },
     "paths": {
+        "/save_email":{
+            "post":{
+                "tags":["MAIN FUNCTION"],
+                "summary": "Create Email Event",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "CreateEmailEvent",
+                                "type": "object",
+                                "properties": {
+                                    "event_id":{
+                                        "title": "event_id",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "email_subject":{
+                                        "title": "email_subject",
+                                        "type": "string"
+                                    },
+                                    "email_content":{
+                                        "title": "email_content",
+                                        "type": "string"
+                                    },
+                                    "timestamp":{
+                                        "title": "timestamp",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["event_id", "email_subject", "email_content", "timestamp"]
+                            },
+                            "example":{
+                                "event_id": 1,
+                                "email_subject": "string",
+                                "email_content": "string",
+                                "timestamp": "2022-02-25T20:15:10"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            }
+        },
         "/email":{
             "get":{
                 "tags":["Email"],
@@ -82,7 +133,30 @@
                     "200":{
                         "description": "Succesfull Response",
                         "content":{"application/json":{
-                            "schema":{}
+                            "schema":{},
+                            "example":{
+                                "data": {
+                                  "list": [
+                                    {
+                                      "email_content": "Hello friend!\n\nThis event gonna be fun\n\ncheers!\nJoy",
+                                      "email_sender": "joy.choco.banana@gmail.com",
+                                      "email_subject": "Monthly Gathering Announcement",
+                                      "id": 1,
+                                      "sent": false,
+                                      "timestamp": "Wed, 02 Mar 2022 23:40:44 GMT"
+                                    }
+                                  ]
+                                },
+                                "meta": {
+                                  "limit": 20,
+                                  "page": 1,
+                                  "total": 1
+                                },
+                                "status": {
+                                  "code": 0,
+                                  "message": "success"
+                                }
+                              }
                         }}
                     }
                 }
@@ -97,22 +171,39 @@
                                 "title": "CreateEmail",
                                 "type": "object",
                                 "properties": {
-                                    "name":{
-                                        "title": "name",
-                                        "type": "string",
-                                        "maximum": 100
+                                    "sender_id":{
+                                        "title": "sender_id",
+                                        "type": "integer",
+                                        "minimum": 1
                                     },
-                                    "address":{
-                                        "title": "address",
+                                    "event_id":{
+                                        "title": "event_id",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "subject":{
+                                        "title": "subject",
                                         "type": "string",
-                                        "maximum": 100
+                                        "maxLength": 300
+                                    },
+                                    "content":{
+                                        "title": "content",
+                                        "type": "string"
+                                    },
+                                    "timestamp":{
+                                        "title": "timestamp",
+                                        "type": "string"
                                     }
+                                    
                                 },
-                                "required":true
+                                "required": ["sender_id", "event_id", "content", "timestamp"]
                             },
                             "example":{
-                                "name":"string",
-                                "address":"string@gmail.com"
+                                "sender_id": 1,
+                                "event_id": 1,
+                                "subject": "My Subject",
+                                "content": "My Content",
+                                "timestamp": "2022-03-03T10:30:30"
                             }
                         }
                     }
@@ -121,7 +212,12 @@
                     "200":{
                         "description": "Succesfull Response",
                         "content":{"application/json":{
-                            "schema":{}
+                            "schema":{},
+                            "examples": {
+                                "application/json":{
+                                    "$ref": "#/components/examples/SuccessResponse"
+                                }
+                            }
                         }}
                     }
                 }
@@ -150,17 +246,39 @@
                                 "title": "CreateEmail",
                                 "type": "object",
                                 "properties": {
-                                    "name":{
-                                        "title": "name",
-                                        "type": "string",
-                                        "maximum": 100
+                                    "sender_id":{
+                                        "title": "sender_id",
+                                        "type": "integer",
+                                        "minimum": 1
                                     },
-                                    "address":{
-                                        "title": "address",
+                                    "event_id":{
+                                        "title": "event_id",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "subject":{
+                                        "title": "subject",
                                         "type": "string",
-                                        "maximum": 100
+                                        "maxLength": 300
+                                    },
+                                    "content":{
+                                        "title": "content",
+                                        "type": "string"
+                                    },
+                                    "timestamp":{
+                                        "title": "timestamp",
+                                        "type": "string"
                                     }
-                                }    
+                                    
+                                },
+                                "required": ["sender_id", "event_id", "content", "timestamp"]
+                            },
+                            "example":{
+                                "sender_id": 1,
+                                "event_id": 1,
+                                "subject": "My Subject",
+                                "content": "My Content",
+                                "timestamp": "2022-03-03T10:30:30"
                             }
                         }
                     }
@@ -170,7 +288,12 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
                             }
                         }
                     }
@@ -196,7 +319,12 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
                             }
                         }
                     }
@@ -294,21 +422,15 @@
                                 "title": "CreateEmail",
                                 "type": "object",
                                 "properties": {
-                                    "name":{
-                                        "title": "name",
-                                        "type": "string",
-                                        "maximum": 100
-                                    },
                                     "address":{
                                         "title": "address",
                                         "type": "string",
                                         "maximum": 100
                                     }
                                 },
-                                "required":true
+                                "required":["address"]
                             },
                             "example":{
-                                "name":"string",
                                 "address":"string@gmail.com"
                             }
                         }
@@ -344,20 +466,19 @@
                     "content": {
                         "application/json":{
                             "schema":{
-                                "title": "CreateEmailAddress",
+                                "title": "CreateEmail",
                                 "type": "object",
                                 "properties": {
-                                    "name":{
-                                        "title": "name",
-                                        "type": "string",
-                                        "maximum": 100
-                                    },
                                     "address":{
                                         "title": "address",
                                         "type": "string",
                                         "maximum": 100
                                     }
-                                }    
+                                },
+                                "required":["address"]
+                            },
+                            "example":{
+                                "address":"string@gmail.com"
                             }
                         }
                     }
@@ -367,7 +488,12 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
                             }
                         }
                     }
@@ -393,7 +519,12 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
                             }
                         }
                     }
@@ -411,6 +542,11 @@
                                 "title": "CreateEmailEvent",
                                 "type": "object",
                                 "properties": {
+                                    "event_id":{
+                                        "title": "event_id",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
                                     "email_subject":{
                                         "title": "email_subject",
                                         "type": "string"
@@ -423,9 +559,11 @@
                                         "title": "timestamp",
                                         "type": "string"
                                     }
-                                }
+                                },
+                                "required": ["event_id", "email_subject", "email_content", "timestamp"]
                             },
                             "example":{
+                                "event_id": 1,
                                 "email_subject": "string",
                                 "email_content": "string",
                                 "timestamp": "2022-02-25T20:15:10"
@@ -509,8 +647,10 @@
                         "schema": {
                             "title": "SortType",
                             "type": "string",
-                            "default": "asc"
-                        },
+                            "enum": ["asc","desc"],
+                            "default": "asc",
+                            "required": ["SortType"]
+                        },                        
                         "name": "sortType",
                         "in": "query"
                     }
@@ -537,12 +677,12 @@
                                     "email":{
                                         "title": "email",
                                         "type": "string",
-                                        "maximum": 100
+                                        "maxLength": 100
                                     },
                                     "password":{
                                         "title": "password",
                                         "type": "string",
-                                        "maximum": 100
+                                        "maxLength": 100
                                     }
                                 },
                                 "required": true
@@ -558,7 +698,12 @@
                     "200":{
                         "description": "Succesfull Response",
                         "content":{"application/json":{
-                            "schema":{}
+                            "schema":{},
+                            "examples": {
+                                "application/json":{
+                                    "$ref": "#/components/examples/SuccessResponse"
+                                }
+                            }
                         }}
                     }
                 }
@@ -590,14 +735,12 @@
                                     "email":{
                                         "title": "email",
                                         "type": "string",
-                                        "maximum": 100,
-                                        "required": false
+                                        "maxLength": 100
                                     },
                                     "password":{
                                         "title": "password",
                                         "type": "string",
-                                        "maximum": 100,
-                                        "required": false
+                                        "maxLength": 100
                                     }
                                 }
                             },
@@ -613,7 +756,12 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
                             }
                         }
                     }
@@ -639,10 +787,416 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
                             }
                         }
                     }
+                }
+            }
+        },
+        "/event":{
+            "get":{
+                "tags":["Event"],
+                "summary": "Get Event",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "ID",
+                            "type": "string"
+                        },
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Show the selected column, leave it empty to show all",
+                        "schema": {
+                            "title": "Fields",
+                            "type": "string"
+                        },
+                        "name": "fields",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "minimum": 1,
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Data limit in 1 page",
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 100,
+                            "exclusiveMinimum": false,
+                            "type": "integer",
+                            "default": 20
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Sort by available column",
+                        "schema": {
+                            "title": "Sortby",
+                            "type": "string",
+                            "default": "id"
+                        },
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Sort the query: `asc` or `desc`",
+                        "schema": {
+                            "title": "SortType",
+                            "type": "string",
+                            "default": "asc"
+                        },
+                        "name": "sortType",
+                        "in": "query"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            },
+            "post":{
+                "tags": ["Event"],
+                "summary": "Create Event",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "title": "CreateEvent",
+                                "type": "object",
+                                "properties": {
+                                    "owner_id":{
+                                        "title": "owner_id",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "name":{
+                                        "title": "name",
+                                        "type": "string",
+                                        "maxLength": 100
+                                    }
+                                },
+                                "required": ["owner_id", "name"]
+                            },
+                            "example":{
+                                "owner_id": 1,
+                                "name": "My Event"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{},
+                            "examples": {
+                                "application/json":{
+                                    "$ref": "#/components/examples/SuccessResponse"
+                                }
+                            }
+                        }}
+                    }
+                }
+            }
+        },
+        "/event/{id}":{
+            "put":{
+                "tags": ["Event"],
+                "summary": "Update Event",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "title": "CreateEvent",
+                                "type": "object",
+                                "properties": {
+                                    "owner_id":{
+                                        "title": "owner_id",
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "name":{
+                                        "title": "name",
+                                        "type": "string",
+                                        "maxLength": 100
+                                    }
+                                }
+                            },
+                            "example":{
+                                "owner_id": 1,
+                                "name": "My Event"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags": ["Event"],
+                "summary": "Delete Event",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Id",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event/{event_id}/participant":{
+            "get":{
+                "tags":["Event"],
+                "summary": "Get Event",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "event_id",
+                            "type": "integer"
+                        },
+                        "name": "event_id",
+                        "in": "path"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "ID",
+                            "type": "string"
+                        },
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Show the selected column, leave it empty to show all",
+                        "schema": {
+                            "title": "Fields",
+                            "type": "string"
+                        },
+                        "name": "fields",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Page",
+                            "minimum": 1,
+                            "type": "integer",
+                            "default": 1
+                        },
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Data limit in 1 page",
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 100,
+                            "exclusiveMinimum": false,
+                            "type": "integer",
+                            "default": 20
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Sort by available column",
+                        "schema": {
+                            "title": "Sortby",
+                            "type": "string",
+                            "default": "id"
+                        },
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "description": "Sort the query: `asc` or `desc`",
+                        "schema": {
+                            "title": "SortType",
+                            "type": "string",
+                            "default": "asc"
+                        },
+                        "name": "sortType",
+                        "in": "query"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description": "Succesfull Response",
+                        "content":{"application/json":{
+                            "schema":{}
+                        }}
+                    }
+                }
+            },
+            "put":{
+                "tags": ["Event"],
+                "summary": "Update Event Participant",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "eventid",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "name": "event_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "title": "EditParticipant",
+                                "type": "object",
+                                "properties": {
+                                    "address":{
+                                        "title": "address",
+                                        "type": "string",
+                                        "maxLength": 100
+                                    }
+                                }
+                            },
+                            "example":{
+                                "address": "string@gmail.com"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event/participant/{participant_id}":{
+            "delete":{
+                "tags": ["Event"],
+                "summary": "Delete Event",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "participant_id",
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "name": "participant_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "application/json":{
+                                        "$ref": "#/components/examples/SuccessResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "examples": {
+            "SuccessResponse":{
+                "data": {},
+                "meta": {},
+                "status": {
+                    "code": 100,
+                    "message": "success"
                 }
             }
         }

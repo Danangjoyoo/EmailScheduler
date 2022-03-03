@@ -9,10 +9,18 @@ async def mock_data():
         session.add(models.EmailAddress(id=4, address="rohogoho@gmail.com"))
         session.add(models.User(id=1, email_address_id=1, password="sweatyellow"))
         session.add(models.Event(id=1, owner_id=1, name="Monthly Gathering"))
-        session.add(models.EmailBody(id=1, subject="Monthly Gathering Announcement", content="Hello friend!\n\nThis event gonna be fun\n\ncheers!\nJoy"))
-        session.add(models.Email(id=1, sender_id=1, email_body_id=1, timestamp=datetime.now()+timedelta(minutes=1), sent=False))
-        session.add(models.EmailRecipient(email_id=1, recipient_address_id=2))
-        session.add(models.EmailRecipient(email_id=1, recipient_address_id=3))
-        session.add(models.EmailRecipient(email_id=1, recipient_address_id=4))
-
+        session.add(
+            models.Email(
+                id=1,
+                sender_id=1,
+                event_id=1,
+                subject="Monthly Gathering Announcement",
+                content="Hello friend!\n\nThis event gonna be fun\n\ncheers!\nJoy",
+                timestamp=datetime.now()+timedelta(seconds=10),
+                sent=False
+                )
+            )
+        session.add(models.EventParticipant(event_id=1, address_id=2))
+        session.add(models.EventParticipant(event_id=1, address_id=3))
+        session.add(models.EventParticipant(event_id=1, address_id=4))
         await session.commit()

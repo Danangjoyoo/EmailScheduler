@@ -9,8 +9,7 @@ from .controller import (
     create_address,
     update_address,
     remove_address,
-    create_scheduled_email,
-    emailCrud
+    create_scheduled_email
 )
 from . import schema
 from ...dependencies.utils import create_response, status, QueryPaginationParams
@@ -86,6 +85,17 @@ async def put_address(id: int):
 async def delete_address(id: int):
     try:
         return await remove_address(id, g.session)
+    except Exception as e:
+        logger.error(e)
+        return create_response(status=status.error(e))
+
+
+## saat ini hanya bisa kirim lewat user-1 (joy.choco.banana@gmail.com)
+## ideally bisa menggunakan login untuk define user mana yang request
+@router.post("/save_email")
+async def save_email():
+    try:
+        return await create_scheduled_email(request, g.session)
     except Exception as e:
         logger.error(e)
         return create_response(status=status.error(e))
